@@ -1,0 +1,11 @@
+{
+  "mysql":{
+    "banco-de-dados": "teste",
+    "usuario": "teste",
+    "senha": "teste",
+    "host": "teste"
+  },
+  "api":{
+    "porta": 3000
+  }
+}
