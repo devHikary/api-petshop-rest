@@ -1,15 +1,22 @@
 const roteador = require('express').Router()
+const Fornecedor = require('./Fornecedor')
 const TabelaFornecedor = require('./TabelaFornecedor')
 
 roteador.get('/', async (req, res) => {
   const resultados = await TabelaFornecedor.listar()
   res.send(
-    resultados
+    JSON.stringify(resultados)
   )
 })
 
-roteador.post('/', (req, res) => {
-
+roteador.post('/', async (req, res) => {
+  const dadosRecebidos = req.body;
+  const fornecedor = new Fornecedor(dadosRecebidos);
+  await fornecedor.criar()
+  res.send(
+    JSON.stringify(fornecedor)
+  )
 })
+
 
 module.exports = roteador
