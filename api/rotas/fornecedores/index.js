@@ -43,7 +43,7 @@ roteador.get('/:id', async (req, res) => {
   }
 })
 
-roteador.put('/:id', async (req, res) => {
+roteador.put('/:id', async (req, res, proximo) => {
   try {
     const id = req.params.id;
     const dadosRecebidos = req.body;
@@ -52,11 +52,7 @@ roteador.put('/:id', async (req, res) => {
     await fornecedor.atualizar()
     res.status(204).end()
   } catch (erro) {
-    res.status(400).send(
-      JSON.stringify({
-        mensagem: erro.message
-      })
-    )
+    proximo(erro)
   }
 })
 
