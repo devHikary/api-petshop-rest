@@ -4,7 +4,7 @@ const TabelaFornecedor = require('./TabelaFornecedor')
 
 roteador.get('/', async (req, res) => {
   const resultados = await TabelaFornecedor.listar()
-  res.send(
+  res.status(200).send(
     JSON.stringify(resultados)
   )
 })
@@ -14,11 +14,11 @@ roteador.post('/', async (req, res) => {
     const dadosRecebidos = req.body;
     const fornecedor = new Fornecedor(dadosRecebidos);
     await fornecedor.criar()
-    res.send(
+    res.status(201).send(
       JSON.stringify(fornecedor)
     )
   } catch (erro) {
-    res.send(
+    res.status(400).send(
       JSON.stringify({
         mensagem: erro.message
       })
@@ -31,7 +31,7 @@ roteador.get('/:id', async (req, res) => {
     const id = req.params.id;
     const fornecedor = new Fornecedor({ id: id });
     await fornecedor.carregar()
-    res.send(
+    res.status(200).send(
       JSON.stringify(fornecedor)
     )
   } catch (erro) {
@@ -50,7 +50,7 @@ roteador.put('/:id', async (req, res) => {
     const dados = Object.assign({}, dadosRecebidos, { id: id })
     const fornecedor = new Fornecedor(dados)
     await fornecedor.atualizar()
-    res.end()
+    res.status(204).end()
   } catch (erro) {
     res.send(
       JSON.stringify({
@@ -66,7 +66,7 @@ roteador.delete('/:id', async (req, res) => {
     const fornecedor = new Fornecedor({ id: id })
     await fornecedor.carregar()
     await fornecedor.remover()
-    res.end()
+    res.status(204).end()
 
   } catch (erro) {
     res.send(
