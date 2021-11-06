@@ -35,7 +35,7 @@ roteador.get('/:id', async (req, res) => {
       JSON.stringify(fornecedor)
     )
   } catch (erro) {
-    res.send(
+    res.status(404).send(
       JSON.stringify({
         mensagem: erro.message
       })
@@ -52,7 +52,7 @@ roteador.put('/:id', async (req, res) => {
     await fornecedor.atualizar()
     res.status(204).end()
   } catch (erro) {
-    res.send(
+    res.status(400).send(
       JSON.stringify({
         mensagem: erro.message
       })
@@ -69,7 +69,7 @@ roteador.delete('/:id', async (req, res) => {
     res.status(204).end()
 
   } catch (erro) {
-    res.send(
+    res.status(404).send(
       JSON.stringify({
         mensagem: erro.message
       })
