@@ -13,6 +13,7 @@ class Fornecedor {
   }
 
   async criar() {
+    this.validar()
     const resultado = await TabelaFornecedor.inserir({
       empresa: this.empresa,
       email: this.email,
@@ -28,15 +29,15 @@ class Fornecedor {
   async carregar() {
     const encontrado = await TabelaFornecedor.pegarPorId(this.id)
     this.empresa = encontrado.empresa,
-    this.email = encontrado.email,
-    this.categoria = encontrado.categoria,
-    this.dataCriação = encontrado.dataCriação,
-    this.dataAtualização = encontrado.dataAtualização,
-    this.versao = encontrado.versao
+      this.email = encontrado.email,
+      this.categoria = encontrado.categoria,
+      this.dataCriação = encontrado.dataCriação,
+      this.dataAtualização = encontrado.dataAtualização,
+      this.versao = encontrado.versao
 
   }
 
-  async atualizar(){
+  async atualizar() {
     await TabelaFornecedor.pegarPorId(this.id);
     const campos = ['empresa', 'email', 'categoria']
     const dadosParaAtualizar = {}
@@ -44,22 +45,37 @@ class Fornecedor {
     campos.forEach((campo) => {
       const valor = this[campo]
 
-      if(typeof valor === 'string' && valor.length > 0){
+      if (typeof valor === 'string' && valor.length > 0) {
         dadosParaAtualizar[campo] = valor
       }
 
     })
 
-    if (Object.keys(dadosParaAtualizar).length === 0){
+    if (Object.keys(dadosParaAtualizar).length === 0) {
       throw new Error('Não foram fornecidos dados para atualizar')
     }
 
     TabelaFornecedor.atualizar(this.id, dadosParaAtualizar)
   }
 
-  remover(){
+  remover() {
     return TabelaFornecedor.remover(this.id)
   }
+
+  validar() {
+    const campos = ['empresa', 'email', 'categoria']
+
+    campos.forEach(campo => {
+      const valor = this[campo]
+
+      if (typeof valor !== 'string' || valor.length === 0) {
+        throw new Error(`O campo '${campo}' está inválido`)
+      }
+
+    })
+
+  }
+
 }
 
 module.exports = Fornecedor
