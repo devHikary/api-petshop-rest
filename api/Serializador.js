@@ -14,7 +14,20 @@ class Serializador {
     }
 }
 
+class SerializadorFornecedor extends Serializador {
+  constructor (contentType) {
+      super()
+      this.contentType = contentType
+      this.camposPublicos = [
+          'id',
+          'empresa',
+          'categoria'
+      ]
+  }
+}
+
 module.exports = {
     Serializador: Serializador,
+    SerializadorFornecedor: SerializadorFornecedor,
     formatosAceitos: ['application/json']
 }
