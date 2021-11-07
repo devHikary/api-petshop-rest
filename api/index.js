@@ -9,6 +9,7 @@ const roteador = require('./rotas/fornecedores')
 const NaoEncontrado = require('./erros/NaoEncontrado')
 const CampoInvalido = require('./erros/CampoInvalido')
 const DadosNaoFornecidos = require('./erros/DadosNaoFornecidos')
+const ValorNaoSuportado = require('./erros/ValorNaoSuportado')
 
 
 app.use('/api/fornecedores', roteador)
@@ -22,7 +23,9 @@ app.use((erro, req, res, proximo) => {
   if(erro instanceof CampoInvalido || erro instanceof  DadosNaoFornecidos){
     status = 400
   }
-
+  if(erro instanceof ValorNaoSuportado){
+    status = 406
+  }
 
   res.status(status).send(
     JSON.stringify({
